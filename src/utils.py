@@ -8,6 +8,7 @@ https://github.com/MichSchli/RelationPrediction
 import numpy as np
 import torch
 import dgl
+import time
 
 #######################################################################
 #
@@ -111,9 +112,12 @@ def generate_sampled_graph_and_labels(triplets, sample_size, split_size,
     dst = dst[graph_split_ids]
     rel = rel[graph_split_ids]
 
+    a = time.time()
     # build DGL graph
     g, rel, norm = build_graph_from_triplets(len(uniq_v), num_rels,
                                              (src, rel, dst))
+    b = time.time()
+    print('D', b-a)
     return g, uniq_v, rel, norm, samples, labels
 
 def comp_deg_norm(g):
