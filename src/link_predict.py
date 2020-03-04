@@ -188,7 +188,7 @@ def main(args):
             mrr = utils.calc_mrr(embed, model.w_relation, valid_data,
                                  hits=[1, 3, 10], eval_bz=args.eval_batch_size)
             t1 = time.time()
-            print("Epoch {:04d} | New MRR {:.4f} | Eval {:.4f}s".format(mrr, t1 - t0))
+            print("Epoch {:04d} | New MRR {:.4f} | Eval {:.4f}s".format(epoch, mrr, t1 - t0))
             # save best model
             if mrr < best_mrr:
                 if epoch >= args.n_epochs:
