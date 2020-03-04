@@ -12,5 +12,13 @@ format= "python3 -m black src --line-length 80"
 pylint = "*"
 black = "*"
 
+[packages]
+torch = "~=1.4"
+numpy = "~=1.18"
+dgl = "~=0.4"
+rdflib = "~=4.2"
+pandas = "~=1.0"
+requests = "~=2.23"
+
 [requires]
 python_version = "3.7"
