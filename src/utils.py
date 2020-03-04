@@ -112,8 +112,6 @@ def generate_sampled_graph_and_labels(triplets, sample_size, split_size,
     rel = rel[graph_split_ids]
 
     # build DGL graph
-    print("# sampled nodes: {}".format(len(uniq_v)))
-    print("# sampled edges: {}".format(len(src) * 2))
     g, rel, norm = build_graph_from_triplets(len(uniq_v), num_rels,
                                              (src, rel, dst))
     return g, uniq_v, rel, norm, samples, labels
@@ -181,7 +179,6 @@ def perturb_and_get_rank(embedding, w, a, r, b, test_size, batch_size=100):
     n_batch = (test_size + batch_size - 1) // batch_size
     ranks = []
     for idx in range(n_batch):
-        print("batch {} / {}".format(idx, n_batch))
         batch_start = idx * batch_size
         batch_end = min(test_size, (idx + 1) * batch_size)
         batch_a = a[batch_start: batch_end]

@@ -149,7 +149,6 @@ def main(args):
                 train_data, args.graph_batch_size, args.graph_split_size,
                 num_rels, adj_list, degrees, args.negative_sample,
                 args.edge_sampler)
-        print("Done edge sampling")
 
         # set node/edge feature
         node_id = torch.from_numpy(node_id).view(-1, 1).long()
