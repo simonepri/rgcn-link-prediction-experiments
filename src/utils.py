@@ -84,6 +84,7 @@ def generate_sampled_graph_and_labels(triplets, sample_size, split_size,
     First perform edge neighborhood sampling on graph, then perform negative
     sampling to generate negative samples
     """
+    a = time.time()
     # perform edge neighbor sampling
     if sampler == "uniform":
         edges = sample_edge_uniform(adj_list, degrees, len(triplets), sample_size)
@@ -92,6 +93,7 @@ def generate_sampled_graph_and_labels(triplets, sample_size, split_size,
     else:
         raise ValueError("Sampler type must be either 'uniform' or 'neighbor'.")
 
+    b = time.time()
     # relabel nodes to have consecutive node ids
     edges = triplets[edges]
     src, rel, dst = edges.transpose()
@@ -99,10 +101,12 @@ def generate_sampled_graph_and_labels(triplets, sample_size, split_size,
     src, dst = np.reshape(edges, (2, -1))
     relabeled_edges = np.stack((src, rel, dst)).transpose()
 
+    c = time.time()
     # negative sampling
     samples, labels = negative_sampling(relabeled_edges, len(uniq_v),
                                         negative_rate)
 
+    d = time.time()
     # further split graph, only half of the edges will be used as graph
     # structure, while the rest half is used as unseen positive samples
     split_size = int(sample_size * split_size)
@@ -112,12 +116,12 @@ def generate_sampled_graph_and_labels(triplets, sample_size, split_size,
     dst = dst[graph_split_ids]
     rel = rel[graph_split_ids]
 
-    a = time.time()
+    e = time.time()
     # build DGL graph
     g, rel, norm = build_graph_from_triplets(len(uniq_v), num_rels,
                                              (src, rel, dst))
-    b = time.time()
-    print('D', b-a)
+    f = time.time()
+    print('D', b-a, c-b, d-c, e-c, f-e)
     return g, uniq_v, rel, norm, samples, labels
 
 def comp_deg_norm(g):
