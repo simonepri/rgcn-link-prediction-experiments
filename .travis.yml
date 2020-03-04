@@ -1,0 +1,13 @@
+sudo: false
+language: python
+python:
+  - 3.7
+os:
+  - linux
+install:
+  - pip install pipenv -qq
+  - pipenv install --dev --skip-lock
+script:
+  - pipenv run format --check --diff
+  - pipenv run lint --disable=E --exit-zero
+  - pipenv run lint -E
