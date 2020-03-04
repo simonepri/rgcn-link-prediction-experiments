@@ -143,14 +143,12 @@ def main(args):
         model.train()
         epoch += 1
 
-        a = time.time()
         # perform edge neighborhood sampling to generate training graph and data
         g, node_id, edge_type, node_norm, data, labels = \
             utils.generate_sampled_graph_and_labels(
                 train_data, args.graph_batch_size, args.graph_split_size,
                 num_rels, adj_list, degrees, args.negative_sample,
                 args.edge_sampler)
-        b = time.time()
 
         # set node/edge feature
         node_id = torch.from_numpy(node_id).view(-1, 1).long()
@@ -158,14 +156,10 @@ def main(args):
         edge_norm = node_norm_to_edge_norm(g, torch.from_numpy(node_norm).view(-1, 1))
         data, labels = torch.from_numpy(data), torch.from_numpy(labels)
         deg = g.in_degrees(range(g.number_of_nodes())).float().view(-1, 1)
-        c = time.time()
         if use_cuda:
             node_id, deg = node_id.cuda(), deg.cuda()
             edge_type, edge_norm = edge_type.cuda(), edge_norm.cuda()
             data, labels = data.cuda(), labels.cuda()
-
-        d = time.time()
-        print(b-a, c-b, d-c)
 
         t0 = time.time()
         embed = model(g, node_id, edge_type, edge_norm)
