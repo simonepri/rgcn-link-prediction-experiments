@@ -20,7 +20,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import random
 from dgl.contrib.data import load_data
-from dgl.nn.pytorch import RelGraphConv
+from relgraphconv import RelGraphConv
 
 from model import BaseRGCN
 
