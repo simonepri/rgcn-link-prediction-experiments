@@ -179,9 +179,6 @@ def main(args):
 
         # validation
         if epoch % args.evaluate_every == 0:
-            # perform validation on CPU because full graph is too large
-            if use_cuda:
-                model.cpu()
             model.eval()
             t0 = time.time()
             embed = model(test_graph, test_node_id, test_rel, test_norm)
@@ -197,8 +194,6 @@ def main(args):
                 best_mrr = mrr
                 torch.save({'state_dict': model.state_dict(), 'epoch': epoch},
                            model_state_file)
-            if use_cuda:
-                model.cuda()
 
     print("training done")
     print("Mean forward time: {:4f}s".format(np.mean(forward_time)))
