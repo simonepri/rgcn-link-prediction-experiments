@@ -16,6 +16,7 @@ class ComplEx(Model):
         self.regularization_parameter = float(
             self.settings["RegularizationParameter"]
         )
+        self.negative_sample_rate = int(self.settings["NegativeSampleRate"])
 
     def compute_codes(self, mode="train"):
         if self.encoder_cache[mode] is not None:
@@ -47,8 +48,7 @@ class ComplEx(Model):
             - tf.reduce_sum(e1s_i * rs_i * e2s_r, 1)
         )
 
-        weight = int(self.settings["NegativeSampleRate"])
-        weight = 1
+        weight = self.negative_sample_rate
         return tf.reduce_mean(
             tf.nn.weighted_cross_entropy_with_logits(self.Y, energies, weight)
         )
