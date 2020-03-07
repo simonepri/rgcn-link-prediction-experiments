@@ -1,7 +1,7 @@
 import tensorflow as tf
 from submodules.rgcn.code.model import Model
 
-
+# pylint: disable=invalid-name
 class DistMult(Model):
     X = None
     Y = None
@@ -56,7 +56,7 @@ class DistMult(Model):
         return tf.nn.sigmoid(energies)
 
     def predict_all_subject_scores(self):
-        e1s, rs, e2s = self.compute_codes(mode="test")
+        _, rs, e2s = self.compute_codes(mode="test")
         all_subject_codes = self.next_component.get_all_subject_codes(
             mode="test"
         )
@@ -66,7 +66,7 @@ class DistMult(Model):
         return tf.nn.sigmoid(all_energies)
 
     def predict_all_object_scores(self):
-        e1s, rs, e2s = self.compute_codes(mode="test")
+        e1s, rs, _ = self.compute_codes(mode="test")
         all_object_codes = self.next_component.get_all_object_codes(mode="test")
         all_energies = tf.matmul(e1s * rs, tf.transpose(all_object_codes))
         return tf.nn.sigmoid(all_energies)

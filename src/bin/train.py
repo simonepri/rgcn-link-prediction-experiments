@@ -20,6 +20,7 @@ def run_mocked_train():
     def run():
         # Disable most of the TF warnings
         os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+        # pylint: disable=import-outside-toplevel,unused-import
         import train
 
     run()
