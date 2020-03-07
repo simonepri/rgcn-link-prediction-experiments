@@ -3,17 +3,22 @@ import os
 import sys
 import unittest
 
-# Add required python path
-sys.path.insert(0, "src/submodules/rgcn/code")
-sys.path.insert(0, "src/submodules/rgcn/code/optimization")
-
 from mocks.model_builder import build_decoder
 
-# Disable most of TF warnings
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+def run_in_submodule(function):
+    # HACK: The submodule needs these path to be run
+    sys.path.insert(0, "src/submodules/rgcn/code/optimization")
+    sys.path.insert(0, "src/submodules/rgcn/code")
+    function()
+    sys.path.remove("src/submodules/rgcn/code/optimization")
+    sys.path.remove("src/submodules/rgcn/code")
 
-@unittest.mock.patch('common.model_builder.build_decoder', build_decoder)
-def run():
-    import submodules.rgcn.code.train
+def run_mocked_train():
+    @unittest.mock.patch('common.model_builder.build_decoder', build_decoder)
+    def run():
+        # Disable most of the TF warnings
+        os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+        import train
+    run()
 
-run()
+run_in_submodule(run_mocked_train)
