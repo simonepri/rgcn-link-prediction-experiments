@@ -19,3 +19,4 @@ python_version = "3.7"
 [packages]
 tensorflow = "~=1.5"
 theano = "~=1.0.4"
+numpy = "~=1.18"
