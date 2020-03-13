@@ -1,4 +1,4 @@
 [submodule "src/submodules/rgcn"]
 	path = src/submodules/rgcn
-	url = https://github.com/MichSchli/RelationPrediction
+	url = https://github.com/simonepri/RelationPrediction
 	branch = master
