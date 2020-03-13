@@ -12,5 +12,5 @@ def build_decoder(encoder, decoder_settings):
 
 
     if decoder_settings["Name"] == "analogy":
-        return TransE(encoder, decoder_settings)
+        return Analogy(encoder, decoder_settings)
     return None

@@ -41,6 +41,7 @@ class Analogy(BaseDecoder):
         half = self.dimension // 2
         e1s, rs, e2s = self.compute_codes(mode="train")
 
+        regularization = 0
         e1s_c = e1s[..., :half]
         e2s_c = e2s[..., :half]
         rs_c = rs[..., :half]
